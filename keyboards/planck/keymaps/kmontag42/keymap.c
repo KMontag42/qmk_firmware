@@ -24,7 +24,8 @@ enum planck_layers {
   _LOWER,
   _RAISE,
   _PLOVER,
-  _ADJUST
+  _ADJUST,
+  _ITHREE
 };
 
 enum planck_keycodes {
@@ -33,7 +34,8 @@ enum planck_keycodes {
   LOWER,
   RAISE,
   BACKLIT,
-  EXT_PLV
+  EXT_PLV,
+  ITHREE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -53,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC},
   {KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
   {KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT },
-  {KC_LGUI, KC_LCTL, KC_LALT, KC_RPRN, LOWER,   KC_LEAD,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT}
+  {KC_LGUI, KC_LCTL, KC_LALT, KC_RPRN, LOWER,   ITHREE,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT}
 },
 
 /* Lower
@@ -127,6 +129,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______, _______,  PLOVER,  _______},
   {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
+},
+
+/* I3 layer, all of these are wrapped with the $mod key for i3
+ * ,-----------------------------------------------------------------------------------.
+ * |      |  1   |   2  |   3  |   4  |  5   |      |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |  6   |   7  |   8  |   9  |  0   |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |             |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+
+[_ITHREE] = {
+  {_______, LGUI(KC_1), LGUI(KC_2), LGUI(KC_3), LGUI(KC_4), LGUI(KC_5), _______, _______, _______, _______, _______, _______},
+  {_______, LGUI(KC_6), LGUI(KC_7), LGUI(KC_8), LGUI(KC_9), LGUI(KC_0), _______, _______, _______, _______, _______, _______},
+  {_______, _______,    _______,    _______,    _______,    _______,    _______, _______, _______, _______, _______, _______},
+  {_______, _______,    _______,    _______,    _______,    _______,    _______, _______, _______, _______, _______, _______}
 }
 
 
@@ -202,6 +223,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           PLAY_SONG(plover_gb_song);
         #endif
         layer_off(_PLOVER);
+      }
+      return false;
+      break;
+    case ITHREE:
+      if (record->event.pressed) {
+        layer_off(_RAISE);
+        layer_off(_PLOVER);
+        layer_off(_LOWER);
+        layer_off(_ADJUST);
+
+        layer_on(_ITHREE);
+      } else {
+        layer_off(_ITHREE);
       }
       return false;
       break;
