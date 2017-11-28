@@ -24,8 +24,7 @@ enum planck_layers {
   _LOWER,
   _RAISE,
   _PLOVER,
-  _ADJUST,
-  _ITHREE
+  _ADJUST
 };
 
 enum planck_keycodes {
@@ -34,11 +33,7 @@ enum planck_keycodes {
   LOWER,
   RAISE,
   BACKLIT,
-  EXT_PLV,
-  ITHREE,
-  ZELDA,
-  SONIC,
-  ONE_UP
+  EXT_PLV
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -51,14 +46,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |---------+------+------+------+------+------|------+------+------+------+------+------|
  * | Shift/( |   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
  * |---------+------+------+------+------+------+------+------+------+------+------+------|
- * | GUI     | Ctrl | Alt  |   )  |Lower | I3   | Raise| Space| Left | Down |  Up  |Right |
+ * | GUI     | Ctrl | Alt  |   )  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
  * `--------------------------------------------------------------------------------------'
  */
 [_QWERTY] = {
   {KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC},
   {KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
   {KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT },
-  {KC_LGUI, KC_LCTL, KC_LALT, KC_RPRN, LOWER,   ITHREE,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT}
+  {KC_LGUI, KC_LCTL, KC_LALT, KC_RPRN, LOWER,   KC_LEAD,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT}
 },
 
 /* Lower
@@ -75,8 +70,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = {
   {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LPRN, KC_RPRN, KC_BSPC},
   {KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS,    KC_PLUS,    KC_LCBR, KC_RCBR, KC_PIPE},
-  {KC_GESC, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END,  _______},
-  {_______, _______, _______, KC_LGUI, _______, _______, _______, _______,    KC_MNXT,    KC_VOLD, KC_VOLU, KC_MPLY}
+  {_______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END,  _______},
+  {_______, _______, _______, _______, _______, _______, _______, _______,    KC_MNXT,    KC_VOLD, KC_VOLU, KC_MPLY}
 },
 
 /* Raise
@@ -118,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
- * |      | Reset| Debug| Zelda| Sonic| 1UP  |      |      |      |      |      |  Del |
+ * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |      |      |Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|Plover|      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -128,29 +123,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = {
-  {_______, RESET,   DEBUG,   ZELDA,   SONIC,   ONE_UP,  _______, TERM_ON, TERM_OFF,_______, _______, KC_DEL },
-  {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______, _______, PLOVER,  _______},
+  {_______, RESET,   DEBUG,   _______, _______, _______, _______, TERM_ON, TERM_OFF,_______, _______, KC_DEL },
+  {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______, _______,  PLOVER,  _______},
   {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
-},
-
-/* I3 layer, all of these are wrapped with the $mod key for i3
- * ,-----------------------------------------------------------------------------------.
- * |      |  1   |   2  |   3  |   4  |  5   |      |      |      |      |      |      |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |  6   |   7  |   8  |   9  |  0   |      |      |      |      |      |      |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Left | Right|  Up  | Down |
- * `-----------------------------------------------------------------------------------'
- */
-
-[_ITHREE] = {
-  {_______, LGUI(KC_1), LGUI(KC_2), LGUI(KC_3), LGUI(KC_4), LGUI(KC_5), _______, _______, _______,       _______,       _______,     _______},
-  {_______, LGUI(KC_6), LGUI(KC_7), LGUI(KC_8), LGUI(KC_9), LGUI(KC_0), _______, _______, _______,       _______,       _______,     _______},
-  {_______, _______,    _______,    _______,    _______,    _______,    _______, _______, _______,       _______,       _______,     _______},
-  {_______, _______,    _______,    _______,    _______,    _______,    _______, _______, LGUI(KC_LEFT), LGUI(KC_DOWN), LGUI(KC_UP), LGUI(KC_RIGHT)}
 }
 
 
@@ -159,10 +135,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef AUDIO_ENABLE
   float plover_song[][2]     = SONG(PLOVER_SOUND);
   float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
-  float i3_song[][2]         = SONG(AG_NORM_SOUND);
-  float zelda_puzzle[][2]    = SONG(ZELDA_PUZZLE);
-  float sonic_ring[][2]      = SONG(SONIC_RING);
-  float one_up[][2]          = SONG(ONE_UP_SOUND);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -233,51 +205,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case ITHREE:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          stop_all_notes();
-          // PLAY_SONG(i3_song);
-        #endif
-        layer_off(_RAISE);
-        layer_off(_PLOVER);
-        layer_off(_LOWER);
-        layer_off(_ADJUST);
-
-        layer_on(_ITHREE);
-      } else {
-        layer_off(_ITHREE);
-      }
-      return false;
-      break;
-    case ZELDA:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          stop_all_notes();
-          PLAY_SONG(zelda_puzzle);
-        #endif
-      }
-      return false;
-      break;
-    case SONIC:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          stop_all_notes();
-          PLAY_SONG(sonic_ring);
-        #endif
-      }
-      return false;
-      break;
-  case ONE_UP:
-    if (record->event.pressed) {
-#ifdef AUDIO_ENABLE
-      stop_all_notes();
-      PLAY_SONG(one_up);
-#endif
-    }
-    return false;
-    break;
-
   }
   return true;
 }
