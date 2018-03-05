@@ -21,6 +21,8 @@ __attribute__ ((weak))
 uint32_t layer_state_set_keymap (uint32_t state) {
   return state;
 }
+__attribute__ ((weak))
+void led_set_keymap(uint8_t usb_led) {}
 
 // Call user matrix init, then call the keymap's init function
 void matrix_init_user(void) {
@@ -42,17 +44,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case KC_MAKE:
     if (!record->event.pressed) {
-      SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP);
+      SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP
 #if  (defined(BOOTLOADER_DFU) || defined(BOOTLOADER_LUFA_DFU) || defined(BOOTLOADER_QMK_DFU))
-      SEND_STRING(":dfu");
-#elseif defined(BOOTLOADER_HALFKEY)
-      SEND_STRING(":teensy ");
-#elseif defined(BOOTLOADER_CATERINA)
-      SEND_STRING(":avrdude ");
-#else
-      SEND_STRING(" ");
+        ":dfu"
+#elif defined(BOOTLOADER_HALFKAY)
+        ":teensy"
+#elif defined(BOOTLOADER_CATERINA)
+        ":avrdude"
 #endif
-      SEND_STRING(SS_TAP(X_ENTER));
+        SS_TAP(X_ENTER));
     }
     return false;
     break;
@@ -83,4 +83,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Then runs keymap's layer change check
 uint32_t layer_state_set_user (uint32_t state) {
   return layer_state_set_keymap (state);
+}
+
+void led_set_user(uint8_t usb_led) {
+   led_set_keymap(usb_led);
 }
